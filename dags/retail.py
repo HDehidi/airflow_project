@@ -1,4 +1,4 @@
-from airflow.decorators import dag,task 
+from airflow.decorators import dag, task
 from datetime import datetime
 
 from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesystemToGCSOperator
@@ -8,8 +8,9 @@ from astro.files import File
 from astro.sql.table import Table, Metadata
 from astro.constants import FileType
 
+
 @dag(
-    start_date= datetime(2023, 1, 1),
+    start_date=datetime(2023, 1, 1),
     schedule=None,
     catchup=False,
     tags=['retail'],
@@ -45,10 +46,13 @@ def retail():
         use_native_support=False,
     )
 
-    @task.external_python(python='/soda_venv/bin/python')
+    @task.external_python(python='/usr/local/airflow/soda_venv/bin/python')
     def check_load(scan_name='check_load', checks_subpath='sources'):
         from include.soda.check_function import check
 
         return check(scan_name, checks_subpath)
+
+    check_load()
+
 
 retail()
