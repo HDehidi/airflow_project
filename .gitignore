@@ -16,4 +16,4 @@ dbt_packages
 logs
 target
 .user.yml
-gcp
+service_account_key.json
